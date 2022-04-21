@@ -5,9 +5,16 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     private String command;
-    private String data;
+    private String author;
+    private String message;
 
     public Message() {
+    }
+
+    public Message(String command, String author, String message) {
+        this.command = command;
+        this.author = author;
+        this.message = message;
     }
 
     public String getCommand() {
@@ -18,19 +25,28 @@ public class Message implements Serializable {
         this.command = command;
     }
 
-    public String getData() {
-        return data;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
         return "Message{" +
                 "command='" + command + '\'' +
-                ", data='" + data + '\'' +
+                ", author='" + author + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerApplication {
+
     public static void readObjectFromInput(InputStream inputStream) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
        /* while (objectInputStream.available() < 0) {
@@ -18,8 +19,6 @@ public class ServerApplication {
 
         Message message = (Message) objectInputStream.readObject();
         System.out.println(message);
-        System.out.println(message.getCommand());
-        System.out.println(message.getData());
     }
 
     public static void readStringFromInput(InputStream inputStream) {
@@ -31,11 +30,19 @@ public class ServerApplication {
         }
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void startServer() throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(8000);
-        Socket socket = serverSocket.accept();
-        readObjectFromInput(socket.getInputStream());
-        //   readStringFromInput(socket.getInputStream());
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                new ServerThread(socket).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        startServer();
     }
 }
-

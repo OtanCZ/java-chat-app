@@ -7,19 +7,27 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
+import static com.example.neaplikacechat.HelloApplication.clientApplication;
+
 public class HelloController {
     @FXML
     public TextField sendTextArea;
     @FXML
     public TextArea chatArea;
+    @FXML
+    public TextField nicknameArea;
 
-    public void sendButton(ActionEvent actionEvent) {
+    public void sendButton(ActionEvent actionEvent) throws IOException {
         Message message = new Message();
         message.setCommand("SEND_DATA");
-        message.setData(getSendTextArea());
-        chatArea.setText(chatArea.getText() + "\n" + message.getData());
+        message.setMessage(sendTextArea.getText());
+        message.setAuthor(nicknameArea.getText());
+        clientApplication.writeObjectToOutputStream(message);
     }
-    public String getSendTextArea() {
-        return String.valueOf(sendTextArea.getText());
+
+    public TextArea getChatArea() {
+        return chatArea;
     }
-    }
+}
